@@ -1,0 +1,164 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        560
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "insert",
+        "collection": "test",
+        "fields": "data",
+        "options": {}
+      },
+      "name": "MongoDB",
+      "type": "n8n-nodes-base.mongoDb",
+      "position": [
+        1020,
+        720
+      ],
+      "typeVersion": 1,
+      "credentials": {
+        "mongoDb": {
+          "id": "1",
+          "name": "MongoDB account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://shopee.vn/api/v4/pages/get_category_tree",
+        "options": {}
+      },
+      "name": "API",
+      "type": "n8n-nodes-base.httpRequest",
+      "position": [
+        140,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "name": "Transform",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        740,
+        720
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {},
+      "name": "Extract Local File",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        420,
+        900
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    },
+    {
+      "parameters": {},
+      "name": "Extract API",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        420,
+        560
+      ],
+      "typeVersion": 1
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "name": "Local File",
+      "type": "n8n-nodes-base.localFileTrigger",
+      "position": [
+        -140,
+        900
+      ],
+      "typeVersion": 1,
+      "disabled": true
+    }
+  ],
+  "connections": {
+    "API": {
+      "main": [
+        [
+          {
+            "node": "Extract API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transform": {
+      "main": [
+        [
+          {
+            "node": "MongoDB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Local File": {
+      "main": [
+        [
+          {
+            "node": "Extract Local File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract API": {
+      "main": [
+        [
+          {
+            "node": "Transform",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Local File": {
+      "main": [
+        [
+          {
+            "node": "Transform",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "id": 1
+}
