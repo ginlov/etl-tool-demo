@@ -15,13 +15,13 @@
       "parameters": {
         "operation": "insert",
         "collection": "test",
-        "fields": "data",
+        "fields": "catid, parent_catid, name, display_name, image, unselected_image, selected_image, level, children",
         "options": {}
       },
       "name": "MongoDB",
       "type": "n8n-nodes-base.mongoDb",
       "position": [
-        1020,
+        1080,
         720
       ],
       "typeVersion": 1,
@@ -40,17 +40,19 @@
       "name": "API",
       "type": "n8n-nodes-base.httpRequest",
       "position": [
-        140,
+        80,
         560
       ],
       "typeVersion": 1
     },
     {
-      "parameters": {},
+      "parameters": {
+        "functionCode": "// Code here will run only once, no matter how many input items there are.\n// More info and help: https://docs.n8n.io/nodes/n8n-nodes-base.function\n// Tip: You can use luxon for dates and $jmespath for querying JSON structures\n\n// You can write logs to the browser console\nconsole.log('Done!');\n\nreturn items;"
+      },
       "name": "Transform",
       "type": "n8n-nodes-base.function",
       "position": [
-        740,
+        760,
         720
       ],
       "typeVersion": 1
@@ -60,18 +62,20 @@
       "name": "Extract Local File",
       "type": "n8n-nodes-base.function",
       "position": [
-        420,
-        900
+        360,
+        920
       ],
       "typeVersion": 1,
       "disabled": true
     },
     {
-      "parameters": {},
+      "parameters": {
+        "functionCode": "// Code here will run only once, no matter how many input items there are.\n// More info and help: https://docs.n8n.io/nodes/n8n-nodes-base.function\n// Tip: You can use luxon for dates and $jmespath for querying JSON structures\n\n// Loop over inputs and add a new field called 'myNewField' to the JSON of each one\nconst newItems = items[0].json.data.category_list\n\n// You can write logs to the browser console\nconsole.log('Done!');\n\nreturn newItems;"
+      },
       "name": "Extract API",
       "type": "n8n-nodes-base.function",
       "position": [
-        420,
+        340,
         560
       ],
       "typeVersion": 1
@@ -83,8 +87,8 @@
       "name": "Local File",
       "type": "n8n-nodes-base.localFileTrigger",
       "position": [
-        -140,
-        900
+        -200,
+        920
       ],
       "typeVersion": 1,
       "disabled": true

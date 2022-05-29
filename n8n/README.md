@@ -23,11 +23,12 @@ Sau khi cài đặt xong, mở ứng dụng desktop hoặc truy cập vào trìn
 
 ![Giao giện bắt đầu](./images/starting-interface.png)
 
-
 Chọn biểu tượng Workflow -> Open -> Chọn file My_workflow.json hoặc copy (Ctrl+C) nội dung file My_workflow.json và dán (Ctrl+V) tại giao diện chính:
 
 ![Giao diện chính](./images/main-interface.png)
+
 ## Sử dụng
+
 Nhấn Excute Workflow để chạy thử
 
 ![Khởi chạy workflow](./images/excute-workflow.png)
@@ -37,3 +38,5 @@ Kết quả thu được: Dữ liệu về danh sách các loại sản phẩm �
 ![Khởi chạy workflow](./images/result-call-api.png)
 
 ![Khởi chạy workflow](./images/result-write-mongodb.png)
+
+![Khởi chạy workflow](./images/result-mongodb.png)
