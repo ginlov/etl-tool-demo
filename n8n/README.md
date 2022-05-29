@@ -4,7 +4,7 @@
 
 n8n (tên đầy đủ là "node-mation") là một công cụ giúp tự động hóa các quy trình, kết nối các công việc thành một chuỗi (gọi là workflows). Workflows có thể được chạy tự động, lặp đi lặp lại mỗi tuần, mỗi ngày, mỗi giờ, hoặc dựa theo một sự kiện đã được cài đặt, giúp người sử dụng tiết kiệm được rất nhiều thời gian và công sức.
 
-## Cài đặt:
+## Cài đặt
 
 Có thể cài đặt n8n bằng 1 trong 3 cách sau:
 
