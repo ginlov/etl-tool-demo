@@ -1,20 +1,5 @@
-def setup_connection():
-    import pymysql
-    connection = pymysql.connect(host="host.docker.internal",\
-                                user="root",\
-                                password="longgiang2010",\
-                                db="etl_db")
-    return connection
-
 def hello():
     print("Hello World")
-
-def read_dataframe(path):
-    import pandas as pd
-    try:
-        return pd.read_csv(path)
-    except:
-        raise Exception()
 
 def to_mysql():
     import os

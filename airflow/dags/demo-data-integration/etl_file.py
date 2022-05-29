@@ -11,7 +11,7 @@ from airflow import DAG
 from airflow.decorators import task
 from airflow.models import Variable
 from airflow.utils.dates import days_ago
-from operators.file_etl import setup_connection, to_mysql
+from operators.file_etl import to_mysql
 from airflow.operators.python_operator import PythonOperator, PythonVirtualenvOperator
 from airflow.providers.mysql.operators.mysql import MySqlOperator
 
