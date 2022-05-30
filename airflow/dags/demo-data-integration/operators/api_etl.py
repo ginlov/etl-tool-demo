@@ -76,9 +76,19 @@ def transform_data():
 
     chosen_columns = ["itemid", "shopid", "name", "currency", "stock", "status", "sold", "liked_count",\
                       "view_count", "catid", "brand", "cmt_count", "item_status", "price",\
-                      "item_rating", "item_type", "shop_location", "is_official_shop", "flag"]
+                    "shop_location", "is_official_shop", "flag"]
     data = data[chosen_columns]
-    data.to_csv("transformed_ShopeeData.csv", index=False)
+    data["name"] = data["name"].fillna("NoName").astype(str)
+    data["currency"] = data["currency"].astype(str)
+    data["brand"] = data["brand"].fillna("No Brand").astype(str)
+    data["item_status"] = data["item_status"].fillna("normal").astype(str)
+    data["shop_location"] = data["shop_location"].astype(str)
+    data["is_official_shop"] = data["is_official_shop"].astype(bool)
+    num_value = ["itemid", "shopid", "stock", "status", "sold", "liked_count", "view_count",\
+                 "catid", "cmt_count", "price", "flag"]
+    for item in num_value:
+        data[item] = data[item].fillna(0)
+    data.to_csv("/opt/airflow/dags/demo-data-integration/transformed_ShopeeData.csv", index=False)
 
 def to_mysql():
     import os
@@ -102,21 +112,24 @@ def to_mysql():
     conn = setup_connection()
     cursor = conn.cursor()
 
-    cols = "`,`".join(["brand", "category", "mall", "product_name", \
-        "views", "price", "rate1star", "rate2star", "rate3star", "rate4star", "rate5star", \
-            "rating", "shop_name", "shope_rating", "response_rate", "ship_ontime"])
+    cols = "`,`".join(["itemid", "shopid", "name", "currency", \
+        "stock", "status", "sold", "liked_count", "view_count", "catid", "brand", \
+            "cmt_count", "item_status", "price", "shop_location", "flag"])
     os.system("pwd")
-    select_columns = ["p_brand", "p_cate", "p_mall", "p_name", "p_number_reviews", "p_price",\
-                      "p_rate1star", "p_rate2star", "p_rate3star", "p_rate4star", "p_rate5star",\
-                      "p_rating", "s_name", "s_rating", "s_response_rate", "s_ship_ontime"]
-    path = "/opt/airflow/dags/demo-data-integration/LazData.csv"
+    select_columns = ["itemid", "shopid", "name", "currency", \
+        "stock", "status", "sold", "liked_count", "view_count", "catid", "brand", \
+            "cmt_count", "item_status", "price", "shop_location", "flag"] 
+    path = "/opt/airflow/dags/demo-data-integration/transformed_ShopeeData.csv"
     data = read_dataframe(path)
     data = data[select_columns]
     for i, row in data.iterrows():
-        print(len(tuple(row)))
-        sql = "INSERT INTO `data_file` (`" + cols +"`) VALUES("+" %s, "*(len(row)-1)+" %s)"
-        print(sql)
-        cursor.execute(sql,tuple(row))
+        try:
+            print(len(tuple(row)))
+            sql = "INSERT INTO `data_api` (`" + cols +"`) VALUES("+" %s, "*(len(row)-1)+" %s)"
+            print(sql)
+            cursor.execute(sql,tuple(row))
 
-        conn.commit()
+            conn.commit()
+        except:
+            continue
     conn.close()
